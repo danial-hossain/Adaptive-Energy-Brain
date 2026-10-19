@@ -1,0 +1,146 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Adaptive Energy Brain | Interactive Demo</title>
+<meta name="description" content="A simulation-first demo of risk-aware renewable energy management for Bangladesh.">
+<style>
+:root{--bg:#08111f;--panel:#101d30;--panel2:#14243a;--text:#edf5ff;--muted:#a7b8ce;--green:#62e6ad;--blue:#71b7ff;--amber:#ffd166;--red:#ff7f8b;--line:#243650}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:radial-gradient(circle at 15% 0%,#173253 0,transparent 35%),var(--bg);color:var(--text);line-height:1.5}
+.wrap{max-width:1180px;margin:auto;padding:26px 20px 50px}.top{display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:30px}.brand{display:flex;align-items:center;gap:12px}.logo{height:44px;width:44px;border-radius:14px;background:linear-gradient(135deg,var(--green),var(--blue));display:grid;place-items:center;color:#061421;font-weight:900;font-size:21px}.brand h1{font-size:18px;margin:0}.brand p{margin:2px 0 0;color:var(--muted);font-size:12px}.pill{border:1px solid #31516c;color:#b8f6dc;background:#102b2c;padding:7px 12px;border-radius:99px;font-size:12px;font-weight:700}
+.hero{display:grid;grid-template-columns:1.35fr .65fr;gap:18px;margin-bottom:18px}.card{background:linear-gradient(145deg,rgba(20,36,58,.96),rgba(12,25,42,.96));border:1px solid var(--line);border-radius:20px;padding:22px;box-shadow:0 14px 35px #0002}.eyebrow{font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--green);font-weight:800}.hero h2{font-size:clamp(28px,4vw,46px);line-height:1.08;margin:12px 0}.hero p{color:var(--muted);max-width:720px}.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:20px}.btn{border:0;border-radius:11px;padding:11px 15px;font-weight:800;cursor:pointer;background:var(--green);color:#071522}.btn.secondary{background:#1b3049;color:var(--text);border:1px solid #35506e}.hero-side{display:flex;flex-direction:column;justify-content:space-between;gap:12px}.mini-label{color:var(--muted);font-size:12px}.big-number{font-size:32px;font-weight:850;margin:5px 0}.positive{color:var(--green)}.subnote{font-size:11px;color:var(--muted)}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:18px 0}.metric{background:#0e1b2d;border:1px solid var(--line);border-radius:16px;padding:17px}.metric .label{font-size:12px;color:var(--muted)}.metric .value{font-size:25px;font-weight:850;margin:6px 0}.metric .delta{font-size:12px;color:var(--green)}
+.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;margin-top:18px}.card h3{margin:0 0 5px;font-size:17px}.muted{color:var(--muted);font-size:13px;margin:0 0 16px}.chart{width:100%;height:230px;display:block}.legend{display:flex;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:12px;margin-top:7px}.dot{display:inline-block;width:8px;height:8px;border-radius:50%;margin-right:5px}.controls{display:grid;gap:18px}.control label{display:flex;justify-content:space-between;gap:10px;font-size:13px;margin-bottom:8px}.control input{width:100%;accent-color:var(--green)}.recommend{border:1px solid #2b6657;background:#0e2a2a;border-radius:14px;padding:15px;margin-top:14px}.recommend strong{color:var(--green)}.flow{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:15px}.step{border:1px solid var(--line);background:#0c192a;border-radius:13px;padding:13px}.step b{display:block;font-size:13px;margin-bottom:5px}.step span{color:var(--muted);font-size:11px}.step .num{display:grid;place-items:center;background:#1d3d4a;color:var(--green);height:26px;width:26px;border-radius:8px;font-size:12px;font-weight:900;margin-bottom:10px}
+.table{width:100%;border-collapse:collapse;font-size:13px}.table th,.table td{text-align:left;border-bottom:1px solid var(--line);padding:11px 8px}.table th{color:var(--muted);font-weight:600}.status{color:var(--green);font-weight:700}.footer{margin-top:22px;padding:15px;color:#879ab2;font-size:11px;text-align:center}.tag{display:inline-block;border:1px solid #3c526b;color:#c3d5e8;border-radius:7px;padding:3px 7px;font-size:10px;margin:2px}
+@media(max-width:800px){.hero,.grid{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}.flow{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:430px){.wrap{padding:18px 12px 35px}.card{padding:17px}.metrics{gap:8px}.metric{padding:12px}.metric .value{font-size:21px}.flow{gap:7px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="top">
+  <div class="brand"><div class="logo">⚡</div><div><h1>Adaptive Energy Brain</h1><p>Risk-aware energy management · Bangladesh concept demo</p></div></div>
+  <span class="pill">● SIMULATION MODE</span>
+</header>
+
+<section class="hero">
+  <div class="card">
+    <div class="eyebrow">Smarter decisions for cleaner power</div>
+    <h2>Balance renewable energy, storage, and demand.</h2>
+    <p>Adaptive Energy Brain is a proposed AI-assisted system that forecasts changing energy conditions and recommends when to use solar power, charge or discharge batteries, or draw electricity from the grid.</p>
+    <div class="actions"><button class="btn" onclick="runScenario()">Run sample scenario ↗</button><button class="btn secondary" onclick="resetScenario()">Reset demo</button></div>
+    <p class="subnote" style="margin-top:15px">This is an illustrative prototype using synthetic values—not a live grid connection or a validated production model.</p>
+  </div>
+  <div class="hero-side">
+    <div class="card"><div class="mini-label">Illustrative daily operating cost</div><div class="big-number" id="cost">৳ 18,400</div><div class="positive" id="costDelta">↓ 14% vs. rule-based baseline</div><div class="subnote">Synthetic example for demonstration only</div></div>
+    <div class="card"><div class="mini-label">Recommended operating mode</div><div class="big-number" style="font-size:24px">Solar + Smart Storage</div><div class="subnote">Prioritize available solar; preserve battery reserve for evening demand.</div></div>
+  </div>
+</section>
+
+<section class="metrics">
+  <div class="metric"><div class="label">Solar generation forecast</div><div class="value" id="solarVal">620 <small style="font-size:13px">kW</small></div><div class="delta">Next interval · estimate</div></div>
+  <div class="metric"><div class="label">Expected demand</div><div class="value" id="demandVal">780 <small style="font-size:13px">kW</small></div><div class="delta" style="color:var(--amber)">Evening peak window</div></div>
+  <div class="metric"><div class="label">Battery state of charge</div><div class="value" id="batteryVal">68%</div><div class="delta">Reserve-aware operation</div></div>
+  <div class="metric"><div class="label">Renewable share</div><div class="value" id="renewVal">54%</div><div class="delta">Illustrative scenario result</div></div>
+</section>
+
+<section class="grid">
+  <div class="card">
+    <h3>Forecast: generation vs. demand</h3><p class="muted">Example 24-hour profile · synthetic data</p>
+    <svg class="chart" viewBox="0 0 620 240" role="img" aria-label="Line chart comparing solar generation and electricity demand">
+      <g stroke="#263a53" stroke-width="1"><line x1="45" y1="30" x2="600" y2="30"/><line x1="45" y1="75" x2="600" y2="75"/><line x1="45" y1="120" x2="600" y2="120"/><line x1="45" y1="165" x2="600" y2="165"/><line x1="45" y1="210" x2="600" y2="210"/></g>
+      <g fill="#8fa4bd" font-size="10"><text x="8" y="34">1000</text><text x="15" y="79">750</text><text x="15" y="124">500</text><text x="15" y="169">250</text><text x="28" y="214">0</text><text x="45" y="230">00:00</text><text x="180" y="230">06:00</text><text x="320" y="230">12:00</text><text x="460" y="230">18:00</text><text x="570" y="230">24:00</text></g>
+      <path id="demandPath" d="M45 120 L90 135 L135 145 L180 130 L225 105 L270 80 L315 70 L360 75 L405 85 L450 55 L495 45 L540 65 L600 95" fill="none" stroke="#71b7ff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path id="solarPath" d="M45 208 L90 208 L135 205 L180 185 L225 135 L270 85 L315 65 L360 80 L405 130 L450 180 L495 205 L540 208 L600 208" fill="none" stroke="#62e6ad" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+    <div class="legend"><span><i class="dot" style="background:#62e6ad"></i>Solar generation</span><span><i class="dot" style="background:#71b7ff"></i>Electricity demand</span></div>
+  </div>
+  <div class="card">
+    <h3>Scenario controls</h3><p class="muted">Adjust assumptions to see the illustrative recommendation change.</p>
+    <div class="controls">
+      <div class="control"><label for="cloud">Cloud cover <b id="cloudLabel">35%</b></label><input id="cloud" type="range" min="0" max="100" value="35" oninput="updateScenario()"></div>
+      <div class="control"><label for="demand">Demand pressure <b id="demandLabel">70%</b></label><input id="demand" type="range" min="20" max="100" value="70" oninput="updateScenario()"></div>
+      <div class="control"><label for="price">Grid price index <b id="priceLabel">৳ 10/kWh</b></label><input id="price" type="range" min="4" max="20" value="10" oninput="updateScenario()"></div>
+    </div>
+    <div class="recommend"><strong>AI decision concept</strong><div id="recommendation" style="font-size:13px;margin-top:6px">Use solar directly, charge storage during surplus, and reserve battery energy for the evening peak.</div></div>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <h3>How the proposed system works</h3><p class="muted">Forecast → evaluate uncertainty → recommend an energy schedule → measure outcomes.</p>
+  <div class="flow">
+    <div class="step"><div class="num">01</div><b>Data inputs</b><span>Weather, solar output, demand, grid prices, battery status.</span></div>
+    <div class="step"><div class="num">02</div><b>Forecasting</b><span>Estimate renewable generation and near-term electricity demand.</span></div>
+    <div class="step"><div class="num">03</div><b>Risk-aware optimizer</b><span>Compare actions under uncertainty and respect battery constraints.</span></div>
+    <div class="step"><div class="num">04</div><b>Action & evaluation</b><span>Recommend charge, discharge, solar use, or grid import; compare KPIs.</span></div>
+  </div>
+</section>
+
+<section class="grid">
+  <div class="card"><h3>Example decision log</h3><p class="muted">A transparent, illustrative schedule for a community energy system.</p>
+    <table class="table"><thead><tr><th>Condition</th><th>Recommended action</th><th>Status</th></tr></thead><tbody id="decisionRows">
+      <tr><td>High solar output</td><td>Serve load; charge battery with surplus</td><td class="status">Suggested</td></tr>
+      <tr><td>Cloud cover rises</td><td>Update forecast; preserve reserve</td><td class="status">Suggested</td></tr>
+      <tr><td>Evening peak</td><td>Discharge within safe battery limits</td><td class="status">Suggested</td></tr>
+    </tbody></table>
+  </div>
+  <div class="card"><h3>Evaluation metrics</h3><p class="muted">Metrics to compare against a simple rule-based baseline.</p>
+    <div style="display:grid;gap:13px">
+      <div><div style="display:flex;justify-content:space-between;font-size:13px"><span>Operating cost</span><b id="costMetric">86 / 100 baseline</b></div><div style="height:7px;background:#243650;border-radius:9px;margin-top:7px;overflow:hidden"><div id="costBar" style="height:100%;width:72%;background:var(--green);border-radius:9px"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:13px"><span>Renewable utilization</span><b id="renewMetric">54%</b></div><div style="height:7px;background:#243650;border-radius:9px;margin-top:7px;overflow:hidden"><div id="renewBar" style="height:100%;width:54%;background:var(--blue);border-radius:9px"></div></div></div>
+      <div><div style="display:flex;justify-content:space-between;font-size:13px"><span>Battery reserve target</span><b>≥ 20%</b></div><div style="height:7px;background:#243650;border-radius:9px;margin-top:7px;overflow:hidden"><div style="height:100%;width:68%;background:var(--amber);border-radius:9px"></div></div></div>
+    </div>
+    <p class="subnote" style="margin-top:14px">Values are illustrative UI indicators, not measured savings or model-validated performance.</p>
+  </div>
+</section>
+
+<section class="card" style="margin-top:18px">
+  <h3>Prototype roadmap</h3><p class="muted">A feasible, staged path for testing the idea with open data and simulation before any real-world deployment.</p>
+  <span class="tag">1 · Validate public datasets</span><span class="tag">2 · Build forecasting baseline</span><span class="tag">3 · Simulate battery constraints</span><span class="tag">4 · Compare optimization policies</span><span class="tag">5 · Publish dashboard & evaluation</span>
+</section>
+<footer class="footer">Adaptive Energy Brain · Concept prototype for discussion · Synthetic demonstration data only · Not connected to Bangladesh’s live electricity grid.</footer>
+</div>
+<script>
+const initial={cloud:35,demand:70,price:10};
+function updateScenario(){
+ const cloud=+document.getElementById('cloud').value, demand=+document.getElementById('demand').value, price=+document.getElementById('price').value;
+ document.getElementById('cloudLabel').textContent=cloud+'%';
+ document.getElementById('demandLabel').textContent=demand+'%';
+ document.getElementById('priceLabel').textContent='৳ '+price+'/kWh';
+ const solar=Math.round(900*(1-cloud/125));
+ const load=Math.round(400+demand*5.4);
+ const battery=Math.max(22,Math.min(92,Math.round(82-cloud*.22-(demand-50)*.12)));
+ const renewable=Math.max(15,Math.min(85,Math.round((solar/load)*48)));
+ const cost=Math.round((load*price*2.5)*(1-(renewable/100)*.22));
+ document.getElementById('solarVal').innerHTML=solar+' <small style="font-size:13px">kW</small>';
+ document.getElementById('demandVal').innerHTML=load+' <small style="font-size:13px">kW</small>';
+ document.getElementById('batteryVal').textContent=battery+'%';
+ document.getElementById('renewVal').textContent=renewable+'%';
+ document.getElementById('cost').textContent='৳ '+cost.toLocaleString('en-US');
+ document.getElementById('costDelta').textContent='Illustrative estimate · scenario-dependent';
+ document.getElementById('renewMetric').textContent=renewable+'%';
+ document.getElementById('renewBar').style.width=renewable+'%';
+ document.getElementById('costMetric').textContent=Math.round(cost/100)+' / 100 index';
+ document.getElementById('costBar').style.width=Math.max(15,Math.min(95,100-cost/700))+'%';
+ let rec;
+ if(cloud>65 && demand>70) rec='Low solar and high demand: preserve battery reserve, prioritize essential loads, and use grid import only as needed within operating limits.';
+ else if(cloud<30 && demand<65) rec='Favorable solar conditions: serve demand with solar first, then charge the battery with surplus while respecting its limits.';
+ else if(price>=14) rec='High grid-price scenario: increase use of available solar and consider battery discharge during expensive periods, while maintaining reserve.';
+ else rec='Blend solar, battery storage, and grid electricity. Refresh forecasts as weather and demand change; keep a safe battery reserve.';
+ document.getElementById('recommendation').textContent=rec;
+ const solarPath=document.getElementById('solarPath');
+ const demandPath=document.getElementById('demandPath');
+ const solarTop=208-(solar/1000)*165;
+ const demandTop=210-(load/1100)*165;
+ solarPath.setAttribute('d',`M45 208 L90 208 L135 205 L180 185 L225 ${Math.max(85,solarTop+60)} L270 ${Math.max(55,solarTop+20)} L315 ${Math.max(48,solarTop)} L360 ${Math.max(60,solarTop+15)} L405 ${Math.max(115,solarTop+65)} L450 180 L495 205 L540 208 L600 208`);
+ demandPath.setAttribute('d',`M45 120 L90 135 L135 145 L180 130 L225 105 L270 ${Math.max(50,demandTop+20)} L315 ${Math.max(42,demandTop)} L360 ${Math.max(48,demandTop+5)} L405 85 L450 ${Math.max(45,demandTop-12)} L495 ${Math.max(40,demandTop-20)} L540 65 L600 95`);
+}
+function runScenario(){
+ document.getElementById('cloud').value=68;document.getElementById('demand').value=88;document.getElementById('price').value=16;updateScenario();
+}
+function resetScenario(){document.getElementById('cloud').value=initial.cloud;document.getElementById('demand').value=initial.demand;document.getElementById('price').value=initial.price;updateScenario();}
+updateScenario();
+</script>
+</body>
+</html>
